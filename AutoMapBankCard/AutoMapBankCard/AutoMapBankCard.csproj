@@ -68,6 +68,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -132,6 +133,7 @@
     <Compile Include="CheckBankCard.aspx.designer.cs">
       <DependentUpon>CheckBankCard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DBHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

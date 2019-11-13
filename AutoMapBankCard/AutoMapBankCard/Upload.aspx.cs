@@ -2,105 +2,124 @@
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
-using System.Collections;
 using System.Data;
 using System.IO;
+using System.Transactions;
 
 namespace AutoMapBankCard
 {
     public partial class Upload : System.Web.UI.Page
     {
+        DBHelper _dBHelper = new DBHelper();
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
-            if (!fuData.HasFile)
-                lbMsg.Text = "Please upload the file";
-            else
+            var extension = Path.GetExtension(fuData.FileName);
+            //verify file
+            var verifyResult = VerifyFile(extension);
+            if (verifyResult)
             {
-                var extension = Path.GetExtension(fuData.FileName);
-                if (extension != ".xlsx" && extension != ".xls")
-                    lbMsg.Text = "Only allow upload excel file";
+                //get table data
+                var dt = new DataTable();
+                using (Stream stream = fuData.PostedFile.InputStream)
+                    dt = ImportExcel(stream, extension, "");
+                if (dt.Rows.Count == 0)
+                    lbMsg.Text = "Data is empty";
                 else
                 {
-                    var dt = ImportExcel(fuData.PostedFile.InputStream, extension, "");
+                    using (TransactionScope txnScope = new TransactionScope())
+                    {
+                        _dBHelper.DeleteAllBankCardList();
+                        _dBHelper.InsertFullBankCardList(dt);
+                        txnScope.Complete();
+                    }
+                    lbMsg.Text = "Upload successfully";
                 }
             }
         }
         private static DataTable ImportExcel(Stream stream, string extension, string sheetName)
         {
             DataTable dt = new DataTable();
-            IWorkbook workbook;
+            IWorkbook workbook = null;
             try
             {
-                //xls使用HSSFWorkbook类实现，xlsx使用XSSFWorkbook类实现
-                switch (extension)
-                {
-                    case ".xlsx":
-                        workbook = new XSSFWorkbook(stream);
-                        break;
-                    default:
-                        workbook = new HSSFWorkbook(stream);
-                        break;
-                }
-                ISheet sheet = null;
-                //获取工作表 默认取第一张
-                if (string.IsNullOrWhiteSpace(sheetName))
-                    sheet = workbook.GetSheetAt(0);
-                else
-                    sheet = workbook.GetSheet(sheetName);
+                //get workbook
+                workbook = GetWorkbook(extension, stream);
+                //get worksheet
+                var sheet = !string.IsNullOrWhiteSpace(sheetName) ? workbook.GetSheet(sheetName) : workbook.GetSheetAt(0);
+                if (sheet == null) return null;
 
-                if (sheet == null)
-                    return null;
-                IEnumerator rows = sheet.GetRowEnumerator();
-                #region 获取表头
+                //get header
                 IRow headerRow = sheet.GetRow(0);
-                int cellCount = headerRow.LastCellNum;
-                for (int j = 0; j < cellCount; j++)
+                foreach (var headerCell in headerRow.Cells)
                 {
-                    ICell cell = headerRow.GetCell(j);
-                    if (!string.IsNullOrWhiteSpace(cell?.ToString()))
-                        dt.Columns.Add(cell.ToString());
-                    else
-                    {
-                        cellCount = j;
+                    if (string.IsNullOrWhiteSpace(headerCell?.ToString()))
                         break;
-                    }
+                    dt.Columns.Add(headerCell.ToString());
                 }
-                #endregion
-                #region 获取内容
-                for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
+
+                //get table content
+                for (var currentRowNumber = (sheet.FirstRowNum + 1); currentRowNumber <= sheet.LastRowNum; currentRowNumber++)
                 {
-                    IRow row = sheet.GetRow(i);
-                    if (!string.IsNullOrWhiteSpace(row.GetCell(0)?.ToString()))
-                        break;
-
+                    IRow row = sheet.GetRow(currentRowNumber);
+                    //check has data in row
+                    if (!HasRowData(row, dt.Columns.Count)) break;
+                    //add data to data table
                     DataRow dataRow = dt.NewRow();
-
-                    for (int j = row.FirstCellNum; j < cellCount; j++)
-                        dataRow[j] = row.GetCell(j).ToString();
+                    for (var currentColumnNumber = 0; currentColumnNumber < dt.Columns.Count; currentColumnNumber++)
+                        dataRow[currentColumnNumber] = row.GetCell(currentColumnNumber)?.ToString();
 
                     dt.Rows.Add(dataRow);
                 }
-                #endregion
-
             }
             catch (Exception ex)
             {
-                dt = null;
+                throw ex;
             }
             finally
             {
-                //if (stream != null)
-                //{
-                //    stream.Close();
-                //    stream.Dispose();
-                //}
+                if (workbook != null)
+                    workbook.Close();
             }
             return dt;
+        }
+        private static IWorkbook GetWorkbook(string extension, Stream stream)
+        {
+            switch (extension)
+            {
+                case ".xlsx":
+                    return new XSSFWorkbook(stream);
+                default:
+                    return new HSSFWorkbook(stream);
+            }
+        }
+        private static bool HasRowData(IRow row, int cellCount)
+        {
+            var result = false;
+            for (int currentCellNumber = 0; currentCellNumber < cellCount; currentCellNumber++)
+            {
+                if (!string.IsNullOrWhiteSpace(row.GetCell(currentCellNumber)?.ToString()))
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+        private bool VerifyFile(string extension)
+        {
+            if (!fuData.HasFile) lbMsg.Text = "Please upload the file";
+            else
+            {
+                if (extension != ".xlsx" && extension != ".xls")
+                    lbMsg.Text = "Only allow upload excel file";
+                else
+                    return true;
+            }
+            return false;
         }
     }
 }
