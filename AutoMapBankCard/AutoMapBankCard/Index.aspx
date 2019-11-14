@@ -21,8 +21,10 @@
             <asp:RadioButtonList ID="rblOption" runat="server" OnSelectedIndexChanged="rblOption_SelectedIndexChanged" RepeatDirection="Horizontal" AutoPostBack="true">
                 <asp:ListItem Text="Check Bank Card" Value="1" Selected="True"></asp:ListItem>
                 <asp:ListItem Text="Upload Sample Data" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Search Data" Value="3"></asp:ListItem>
             </asp:RadioButtonList>
         </div>
+        <br />
         <div>
             <iframe id="ifMain" runat="server" style="border:0px; overflow: scroll" src="CheckBankCard.aspx"></iframe>
         </div>

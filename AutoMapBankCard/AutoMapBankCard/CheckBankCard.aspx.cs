@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace AutoMapBankCard
 {
@@ -16,7 +15,46 @@ namespace AutoMapBankCard
 
         protected void btnCheck_Click(object sender, EventArgs e)
         {
+            var fullText = txtMessage.Text;
+            //replace new line 
+            fullText = fullText.Replace(Environment.NewLine, "@");
+            var m = Regex.Match(fullText, @"hosts\..*\[Office365connector\]");
+            var result = m.Value.Trim("host.[Office365connector]@,".ToArray());
 
+            JObject jObj = new JObject();
+            var cards = result.Split(new string[] { ",@" }, StringSplitOptions.RemoveEmptyEntries);
+            if (cards.Length > 0)
+            {
+                for (int i = 1; i <= cards.Length; i++)
+                {
+                    var split = Regex.Matches(cards[i - 1], @"[^\s]+");
+                    if (split.Count == 4)
+                    {
+                        var jItem = new JObject
+                        {
+                            { "AccountNo", split[1].ToString() },
+                            { "AccountName", split[2].ToString() },
+                            { "IssueBankAddress", split[3].ToString() },
+                        };
+                        jObj.Add($"Card{i.ToString()}", jItem);
+                    }
+                }
+            }
+            //send request
+            var request = new HttpRequestUtility
+            {
+                FormMethod = HttpMethod.Post,
+                ContentType = "application/json",
+                CharSet = "utf8",
+                Url = $"{Request.Url.Scheme}://{Request.Url.Authority}//Notify",
+                FormContent = new StringContent(jObj.ToString(Newtonsoft.Json.Formatting.None))
+            };
+            var respMsg = "";
+            using (var response = request.Submit())
+            {
+
+            }
+            lbMsg.Text = "submit successfully";
         }
     }
 }

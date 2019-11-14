@@ -21,8 +21,10 @@ namespace AutoMapBankCard
             var value = ((RadioButtonList)sender).SelectedValue;
             if (value.Equals("1"))
                 ifMain.Src = "CheckBankCard";
-            else if(value.Equals("2"))
+            else if (value.Equals("2"))
                 ifMain.Src = "Upload";
+            else if (value.Equals("3"))
+                ifMain.Src = "Search";
         }
     }
 }
