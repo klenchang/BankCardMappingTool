@@ -50,10 +50,7 @@ namespace AutoMapBankCard
                 FormContent = new StringContent(jObj.ToString(Newtonsoft.Json.Formatting.None))
             };
             var respMsg = "";
-            using (var response = request.Submit())
-            {
-
-            }
+            using (var response = request.Submit()) { }
             lbMsg.Text = "submit successfully";
         }
     }
