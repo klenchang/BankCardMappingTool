@@ -11,7 +11,11 @@
         <div>
             <asp:FileUpload ID="fuData" runat="server" />
             <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
-            <asp:Label ID="lbMsg" runat="server"></asp:Label>
+            <a href="Content/BankCardListSample.xlsx">Sample</a>
+        </div>
+        <br />
+        <div>
+            <asp:Label ID="lbMsg" runat="server" Style="color: red;"></asp:Label>
         </div>
     </form>
 </body>
