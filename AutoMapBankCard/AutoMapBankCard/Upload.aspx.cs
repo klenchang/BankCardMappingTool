@@ -55,8 +55,7 @@ namespace AutoMapBankCard
                 IRow headerRow = sheet.GetRow(0);
                 foreach (var headerCell in headerRow.Cells)
                 {
-                    if (string.IsNullOrWhiteSpace(headerCell?.ToString()))
-                        break;
+                    if (string.IsNullOrWhiteSpace(headerCell?.ToString())) break;
                     dt.Columns.Add(headerCell.ToString());
                 }
 

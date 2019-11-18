@@ -124,6 +124,8 @@
       <DependentUpon>BankCard.mdf</DependentUpon>
     </Content>
     <Content Include="CheckBankCard.aspx" />
+    <Content Include="Content\original.gif" />
+    <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Index.aspx" />
     <Content Include="Notify.aspx" />
@@ -140,6 +142,13 @@
       <DependentUpon>CheckBankCard.aspx</DependentUpon>
     </Compile>
     <Compile Include="DBHelper.cs" />
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

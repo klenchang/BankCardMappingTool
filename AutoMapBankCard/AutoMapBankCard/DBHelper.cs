@@ -19,9 +19,9 @@ namespace AutoMapBankCard
                 copy.BatchSize = 3;
                 copy.BulkCopyTimeout = 10;
                 copy.DestinationTableName = "BankCardList";
-                copy.ColumnMappings.Add(dt.Columns[0].ColumnName, "AccountName");
-                copy.ColumnMappings.Add(dt.Columns[1].ColumnName, "AccountNumber");
-                copy.ColumnMappings.Add(dt.Columns[2].ColumnName, "IssuingBankAddress");
+                copy.ColumnMappings.Add(dt.Columns["Ac. Name"].ColumnName, "AccountName");
+                copy.ColumnMappings.Add(dt.Columns["Ac. Number"].ColumnName, "AccountNumber");
+                copy.ColumnMappings.Add(dt.Columns["Issuing Bank Address:"].ColumnName, "IssuingBankAddress");
                 copy.WriteToServer(dt);
             }
         }

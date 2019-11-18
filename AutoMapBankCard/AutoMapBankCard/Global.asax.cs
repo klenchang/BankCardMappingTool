@@ -52,6 +52,7 @@ namespace AutoMapBankCard
             routes.MapPageRoute("CheckBankCard", "CheckBankCard", "~/CheckBankCard.aspx");
             routes.MapPageRoute("Notify", "Notify", "~/Notify.aspx");
             routes.MapPageRoute("Search", "Search", "~/Search.aspx");
+            routes.MapPageRoute("Error", "Error", "~/Error.aspx");
         }
     }
 }

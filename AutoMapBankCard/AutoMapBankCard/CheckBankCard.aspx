@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
         <div style="width: 30%; display: inline-block;">
             <div>
-                <asp:TextBox ID="txtMessage" runat="server" TextMode="MultiLine" Height="300px" Width="500px" Style="resize: none;"></asp:TextBox>
+                <asp:TextBox ID="txtMessage" runat="server" TextMode="MultiLine" Height="300px" Width="300px" Style="resize: none;"></asp:TextBox>
             </div>
             <div>
                 <asp:Button ID="btnCheck" runat="server" Text="Check" OnClick="btnCheck_Click" />
