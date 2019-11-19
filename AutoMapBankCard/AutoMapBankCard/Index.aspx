@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Home Page</title>
     <script>
         window.onload = function () {
             var iframe = document.getElementById("ifMain");
@@ -24,9 +24,8 @@
                 <asp:ListItem Text="Search Data" Value="3"></asp:ListItem>
             </asp:RadioButtonList>
         </div>
-        <br />
         <div>
-            <iframe id="ifMain" runat="server" style="border:0px; overflow: scroll" src="CheckBankCard.aspx"></iframe>
+            <iframe id="ifMain" runat="server" style="border: 0px; overflow: scroll" src="CheckBankCard.aspx"></iframe>
         </div>
     </form>
 </body>

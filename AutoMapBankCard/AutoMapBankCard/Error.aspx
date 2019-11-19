@@ -8,6 +8,7 @@
     <style>
         div {
             text-align: center;
+            margin-top: 10px;
         }
     </style>
     <script type="text/javascript">
@@ -30,7 +31,6 @@
         <div style="color: red; font-size: 25px;">
             <label>Error:</label><asp:Label ID="lbErrorMsg" runat="server"></asp:Label>
         </div>
-        <br />
         <div>
             <input id="btnBack" type="button" onclick="Back();" value="Back to Home Page" />
         </div>

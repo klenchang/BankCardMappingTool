@@ -10,7 +10,7 @@ namespace AutoMapBankCard
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void btnCheck_Click(object sender, EventArgs e)
@@ -51,7 +51,7 @@ namespace AutoMapBankCard
             };
             var respMsg = "";
             using (var response = request.Submit()) { }
-            lbMsg.Text = "submit successfully";
+            lbMsg.Text = "Execution Result : submit successfully";
         }
     }
 }

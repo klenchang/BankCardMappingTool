@@ -134,6 +134,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankCardHelper.cs" />
     <Compile Include="CheckBankCard.aspx.cs">
       <DependentUpon>CheckBankCard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -73,5 +73,18 @@ namespace AutoMapBankCard
                 }
             }
         }
+        public int GetBankCardCount()
+        {
+            var sql = "SELECT COUNT(1) FROM BankCardList WITH(NOLOCK)";
+            using (var conn = new SqlConnection(_conn))
+            {
+                conn.Open();
+                using (SqlCommand commandObj = new SqlCommand(sql, conn))
+                {
+                    commandObj.CommandType = CommandType.Text;
+                    return Convert.ToInt32(commandObj.ExecuteScalar());
+                }
+            }
+        }
     }
 }

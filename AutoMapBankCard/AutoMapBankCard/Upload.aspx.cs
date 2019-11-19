@@ -36,6 +36,7 @@ namespace AutoMapBankCard
                         txnScope.Complete();
                     }
                     lbMsg.Text = "Upload successfully";
+                    BankCardHelper.CardNumber = dt.Rows.Count;
                 }
             }
         }
