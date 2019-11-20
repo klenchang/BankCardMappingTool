@@ -12,22 +12,17 @@ namespace AutoMapBankCard
             {
                 lbCount.Text = BankCardHelper.CardNumber.ToString();
                 BindDDLPageIndex();
+                BindGV();
             }
         }
         private void BindGV()
         {
-            gvShow.DataSource = _dBHelper.GetBankCardList();
+            var pageSize = int.Parse(ddlPageSize.SelectedValue);
+            var pageIndex = int.Parse(ddlPageIndex.SelectedValue);
+            var startIndex = (pageIndex - 1) * pageSize + 1;
+            var endIndex = pageIndex * pageSize;
+            gvShow.DataSource = _dBHelper.GetBankCardList(startIndex, endIndex);
             gvShow.DataBind();
-        }
-        protected void gvShow_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
-        {
-            gvShow.PageIndex = e.NewPageIndex;
-            BindGV();
-        }
-
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            BindGV();
         }
         private void BindDDLPageIndex()
         {
@@ -42,6 +37,11 @@ namespace AutoMapBankCard
             ddlPageIndex.Items.Clear();
             BindDDLPageIndex();
             ddlPageIndex.SelectedIndex = 0;
+            BindGV();
+        }
+        protected void ddlPageIndex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindGV();
         }
     }
 }

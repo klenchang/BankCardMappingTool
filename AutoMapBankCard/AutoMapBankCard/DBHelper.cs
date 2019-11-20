@@ -25,12 +25,20 @@ namespace AutoMapBankCard
                 copy.WriteToServer(dt);
             }
         }
-        public DataTable GetBankCardList()
+        public DataTable GetBankCardList(int startIndex, int endIndex)
         {
             DataTable dt = new DataTable();
-            var sql = "SELECT AccountName, AccountNumber, IssuingBankAddress FROM BankCardList";
+            var sql = "SELECT SerialNo, AccountName, AccountNumber, IssuingBankAddress FROM BankCardList WITH(NOLOCK) WHERE SerialNo BETWEEN @StartIndex AND @EndIndex";
             using (var adapter = new SqlDataAdapter(sql, _conn))
+            {
+                adapter.SelectCommand.Parameters.AddRange(
+                    new SqlParameter[]
+                    {
+                        new SqlParameter("@StartIndex", startIndex),
+                        new SqlParameter("@EndIndex", endIndex)
+                    });
                 adapter.Fill(dt);
+            }
 
             return dt;
         }
