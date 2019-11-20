@@ -10,7 +10,6 @@ namespace AutoMapBankCard
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
         }
 
         protected void btnCheck_Click(object sender, EventArgs e)
@@ -46,10 +45,9 @@ namespace AutoMapBankCard
                 FormMethod = HttpMethod.Post,
                 ContentType = "application/json",
                 CharSet = "utf8",
-                Url = $"{Request.Url.Scheme}://{Request.Url.Authority}//Notify",
+                Url = $"{Request.Url.Scheme}://{Request.Url.Authority}{Request.Url.Segments.Aggregate((sum, next) => sum + next).Replace(Request.Url.Segments[Request.Url.Segments.Count() - 1], "Notify")}",
                 FormContent = new StringContent(jObj.ToString(Newtonsoft.Json.Formatting.None))
             };
-            var respMsg = "";
             using (var response = request.Submit()) { }
             lbMsg.Text = "Execution Result : submit successfully";
         }

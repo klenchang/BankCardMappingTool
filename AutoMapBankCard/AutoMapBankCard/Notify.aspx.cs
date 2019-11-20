@@ -101,7 +101,7 @@ namespace AutoMapBankCard
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return ex.InnerException.ToString();
             }
             return text;
         }
