@@ -39,7 +39,6 @@
     [Office365connector]
 
     <label style="color:red;">* The text must start from "hosts." and end with "[Office365connector]".</label>
-    <label style="color:red;">* please confirm there is comma in every card line end.</label>
                 </pre>
             </div>
         </div>

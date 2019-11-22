@@ -11,17 +11,16 @@ namespace AutoMapBankCard
         protected void Page_Load(object sender, EventArgs e)
         {
         }
-
         protected void btnCheck_Click(object sender, EventArgs e)
         {
             var fullText = txtMessage.Text;
             //replace new line 
-            fullText = fullText.Replace(Environment.NewLine, "@");
+            fullText = fullText.Replace(Environment.NewLine, "$nl$");
             var m = Regex.Match(fullText, @"hosts\..*\[Office365connector\]");
-            var result = m.Value.Trim("host.[Office365connector]@,".ToArray());
+            var result = m.Value.Trim("host.[Office365connector]$nl$,".ToArray());
 
             JObject jObj = new JObject();
-            var cards = result.Split(new string[] { ",@" }, StringSplitOptions.RemoveEmptyEntries);
+            var cards = result.Split(new string[] { "$nl$" }, StringSplitOptions.RemoveEmptyEntries);
             if (cards.Length > 0)
             {
                 for (int i = 1; i <= cards.Length; i++)
@@ -33,7 +32,7 @@ namespace AutoMapBankCard
                         {
                             { "AccountNo", split[1].ToString() },
                             { "AccountName", split[2].ToString() },
-                            { "IssueBankAddress", split[3].ToString() },
+                            { "IssueBankAddress", split[3].ToString().TrimEnd(',') },
                         };
                         jObj.Add($"Card{i.ToString()}", jItem);
                     }

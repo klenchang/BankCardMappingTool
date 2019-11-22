@@ -56,7 +56,7 @@ namespace AutoMapBankCard
         }
         public bool IsBankCardExsit(string accountNo, string accountName, string issueBankAddress)
         {
-            var sql = @"IF EXISTS (SELECT 1 FROM BankCardList WITH(NOLOCK) WHERE AccountName LIKE @AccountName AND AccountNumber LIKE @AccountNumber AND IssuingBankAddress = @IssuingBankAddress)
+            var sql = @"IF EXISTS (SELECT 1 FROM BankCardList WITH(NOLOCK) WHERE AccountName LIKE @AccountName AND AccountNumber LIKE @AccountNumber AND IssuingBankAddress LIKE @IssuingBankAddress)
                         BEGIN
                             SELECT 1;
                         END
@@ -75,7 +75,7 @@ namespace AutoMapBankCard
                         {
                             new SqlParameter() { ParameterName = "@AccountName", Value = $"{accountName}%", SqlDbType = SqlDbType.NVarChar, Size = 10 },
                             new SqlParameter() { ParameterName = "@AccountNumber", Value = $"%{accountNo}", SqlDbType = SqlDbType.VarChar, Size = 20 },
-                            new SqlParameter() { ParameterName = "@IssuingBankAddress", Value = issueBankAddress, SqlDbType = SqlDbType.NVarChar, Size = 30 }
+                            new SqlParameter() { ParameterName = "@IssuingBankAddress", Value = $"{issueBankAddress}%", SqlDbType = SqlDbType.NVarChar, Size = 30 }
                         });
                     return Convert.ToBoolean(commandObj.ExecuteScalar());
                 }
