@@ -124,67 +124,69 @@
     <Content Include="App_Data\BankCard_log.ldf">
       <DependentUpon>BankCard.mdf</DependentUpon>
     </Content>
-    <Content Include="CheckBankCard.aspx" />
     <Content Include="Content\original.gif" />
-    <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Index.aspx" />
-    <Content Include="Notify.aspx" />
-    <Content Include="Search.aspx" />
-    <Content Include="Upload.aspx" />
+    <Content Include="Page\Index.aspx" />
+    <Content Include="Page\Notify.aspx" />
+    <Content Include="Page\CheckBankCard.aspx" />
+    <Content Include="Page\Error.aspx" />
+    <Content Include="Page\Search.aspx" />
+    <Content Include="Page\Upload.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankCardHelper.cs" />
-    <Compile Include="CheckBankCard.aspx.cs">
-      <DependentUpon>CheckBankCard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CheckBankCard.aspx.designer.cs">
-      <DependentUpon>CheckBankCard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="DBHelper.cs" />
-    <Compile Include="Error.aspx.cs">
-      <DependentUpon>Error.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Error.aspx.designer.cs">
-      <DependentUpon>Error.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="GeneralUtility.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HttpRequestUtility.cs" />
-    <Compile Include="Index.aspx.cs">
+    <Compile Include="Helper\BankCardHelper.cs" />
+    <Compile Include="Helper\CryptoHelper.cs" />
+    <Compile Include="Helper\DBHelper.cs" />
+    <Compile Include="Model\BankCard.cs" />
+    <Compile Include="Page\Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Index.aspx.designer.cs">
+    <Compile Include="Page\Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Notify.aspx.cs">
+    <Compile Include="Page\Notify.aspx.cs">
       <DependentUpon>Notify.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Notify.aspx.designer.cs">
+    <Compile Include="Page\Notify.aspx.designer.cs">
       <DependentUpon>Notify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\CheckBankCard.aspx.cs">
+      <DependentUpon>CheckBankCard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\CheckBankCard.aspx.designer.cs">
+      <DependentUpon>CheckBankCard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Search.aspx.cs">
+    <Compile Include="Page\Search.aspx.cs">
       <DependentUpon>Search.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Search.aspx.designer.cs">
+    <Compile Include="Page\Search.aspx.designer.cs">
       <DependentUpon>Search.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Upload.aspx.cs">
+    <Compile Include="Page\Upload.aspx.cs">
       <DependentUpon>Upload.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Upload.aspx.designer.cs">
+    <Compile Include="Page\Upload.aspx.designer.cs">
       <DependentUpon>Upload.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Utility\GeneralUtility.cs" />
+    <Compile Include="Utility\HttpRequestUtility.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

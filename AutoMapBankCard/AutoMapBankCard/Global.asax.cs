@@ -47,12 +47,12 @@ namespace AutoMapBankCard
             routes.IgnoreRoute("{resource}.aspx/{*pathInfo}");
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapPageRoute("Index", "Index", "~/Index.aspx");
-            routes.MapPageRoute("DataUpload", "Upload", "~/Upload.aspx");
-            routes.MapPageRoute("CheckBankCard", "CheckBankCard", "~/CheckBankCard.aspx");
-            routes.MapPageRoute("Notify", "Notify", "~/Notify.aspx");
-            routes.MapPageRoute("Search", "Search", "~/Search.aspx");
-            routes.MapPageRoute("Error", "Error", "~/Error.aspx");
+            routes.MapPageRoute("Index", "Index", "~/Page/Index.aspx");
+            routes.MapPageRoute("DataUpload", "Upload", "~/Page/Upload.aspx");
+            routes.MapPageRoute("CheckBankCard", "CheckBankCard", "~/Page/CheckBankCard.aspx");
+            routes.MapPageRoute("Notify", "Notify", "~/Page/Notify.aspx");
+            routes.MapPageRoute("Search", "Search", "~/Page/Search.aspx");
+            routes.MapPageRoute("Error", "Error", "~/Page/Error.aspx");
         }
     }
 }
