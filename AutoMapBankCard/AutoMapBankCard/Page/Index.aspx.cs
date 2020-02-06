@@ -8,11 +8,11 @@ namespace AutoMapBankCard.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (BankCardHelper.CardNumber == 0)
+            if (BankCardHelper.BankCardList.Count == 0)
             {
                 ClientScript.RegisterStartupScript(Page.GetType(), "UploadFile", "<script>alert('Please Upload Data');</script>");
                 rblOption.SelectedValue = "2";
-                ifMain.Src = "Upload";
+                ifMain.Src = "~/Upload";
             }
         }
 

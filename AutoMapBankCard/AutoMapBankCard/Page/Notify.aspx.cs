@@ -39,7 +39,7 @@ namespace AutoMapBankCard.Page
                                 var accountName = card["AccountName"]?.ToString();
                                 var issueBankAddress = card["IssueBankAddress"]?.ToString();
                                 sourceList.Add($"{property.Name}: {accountNo} {accountName} {issueBankAddress}");
-                                var isExist = _dBHelper.IsBankCardExsit(accountNo, accountName, issueBankAddress);
+                                var isExist = BankCardHelper.IsBankCardExsit(accountNo, accountName, issueBankAddress);
                                 if (!isExist)
                                     resultList.Add(property.Name);
                             }

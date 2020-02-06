@@ -1,4 +1,6 @@
 ﻿using AutoMapBankCard.Helper;
+using AutoMapBankCard.Model;
+using AutoMapBankCard.Utility;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -38,7 +40,7 @@ namespace AutoMapBankCard.Page
                         txnScope.Complete();
                     }
                     lbMsg.Text = "Upload successfully";
-                    BankCardHelper.CardNumber = dt.Rows.Count;
+                    BankCardHelper.BankCardList = GeneralUtility.ConvertDataTableToList<BankCard>(_dBHelper.GetBankCardList(0, 0, true));
                 }
             }
         }

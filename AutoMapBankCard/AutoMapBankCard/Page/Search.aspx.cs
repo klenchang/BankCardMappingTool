@@ -1,7 +1,10 @@
 ﻿using AutoMapBankCard.Helper;
+using AutoMapBankCard.Model;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Web.UI.WebControls;
+using System.Linq;
 
 namespace AutoMapBankCard.Page
 {
@@ -12,7 +15,7 @@ namespace AutoMapBankCard.Page
         {
             if (!IsPostBack)
             {
-                lbCount.Text = BankCardHelper.CardNumber.ToString();
+                lbCount.Text = BankCardHelper.BankCardList.Count.ToString();
                 BindDDLPageIndex();
                 BindGV();
             }
@@ -23,14 +26,14 @@ namespace AutoMapBankCard.Page
             var pageIndex = int.Parse(ddlPageIndex.SelectedValue);
             var startIndex = (pageIndex - 1) * pageSize + 1;
             var endIndex = pageIndex * pageSize;
-            var sourceTable = _dBHelper.GetBankCardList(startIndex, endIndex);
+            var sourceTable = BankCardHelper.BankCardList.Where(i => int.Parse(i.SerialNo) >= startIndex && int.Parse(i.SerialNo) <= endIndex).ToList();
             ProcessData(sourceTable);
             gvShow.DataSource = sourceTable;
             gvShow.DataBind();
         }
         private void BindDDLPageIndex()
         {
-            double total = BankCardHelper.CardNumber;
+            double total = BankCardHelper.BankCardList.Count;
             double pageSize = double.Parse(ddlPageSize.SelectedValue);
             var pageIndex = Convert.ToInt16(Math.Ceiling(total / pageSize));
             for (int i = 1; i <= pageIndex; i++)
@@ -47,17 +50,17 @@ namespace AutoMapBankCard.Page
         {
             BindGV();
         }
-        private void ProcessData(DataTable dtSource)
+        private void ProcessData(List<BankCard> dtSource)
         {
-            foreach (DataRow dr in dtSource.Rows)
+            foreach (var item in dtSource)
             {
-                dr["AccountName"] = ProcessStringToStar(dr["AccountName"].ToString(), "back", 1);
-                dr["AccountNumber"] = ProcessStringToStar(dr["AccountNumber"].ToString(), "front", 7);
+                item.AccountName = ProcessStringToStar(item.AccountName.ToString(), "back", 1);
+                item.AccountNumber = ProcessStringToStar(item.AccountNumber, "front", 7);
             }
         }
         private string ProcessStringToStar(string source, string mode, int remainingLength)
         {
-            if (source.Length == 1) return source;
+            if (source.Length <= 1) return source;
 
             var replaceLength = source.Length > remainingLength ? source.Length - remainingLength : 1;
             if (mode == "front")

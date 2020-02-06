@@ -10,16 +10,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Data/BankCard.mdf">
-      <publishTime>11/20/2019 17:34:04</publishTime>
+      <publishTime>11/22/2019 15:14:39</publishTime>
     </File>
     <File Include="App_Data/BankCard_log.ldf">
-      <publishTime>11/20/2019 17:34:04</publishTime>
+      <publishTime>11/22/2019 15:14:39</publishTime>
     </File>
     <File Include="bin/AutoMapBankCard.dll">
-      <publishTime>11/20/2019 17:34:04</publishTime>
+      <publishTime>11/22/2019 15:15:00</publishTime>
     </File>
     <File Include="bin/AutoMapBankCard.pdb">
-      <publishTime>11/20/2019 17:34:04</publishTime>
+      <publishTime>11/22/2019 15:15:00</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>08/15/2018 17:16:34</publishTime>
@@ -208,7 +208,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2018 13:04:24</publishTime>
     </File>
     <File Include="CheckBankCard.aspx">
-      <publishTime>11/19/2019 18:57:18</publishTime>
+      <publishTime>11/20/2019 17:43:10</publishTime>
     </File>
     <File Include="Content/BankCardListSample.xlsx">
       <publishTime>11/15/2019 18:18:02</publishTime>
@@ -235,7 +235,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/19/2019 19:03:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/20/2019 16:22:12</publishTime>
+      <publishTime>11/20/2019 19:18:31</publishTime>
     </File>
   </ItemGroup>
 </Project>

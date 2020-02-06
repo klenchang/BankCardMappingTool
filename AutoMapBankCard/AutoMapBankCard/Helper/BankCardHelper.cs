@@ -1,23 +1,32 @@
 ﻿using AutoMapBankCard.Model;
 using System.Collections.Generic;
-using System.Web;
+using System.Data;
+using AutoMapBankCard.Utility;
+using System.Linq;
 
 namespace AutoMapBankCard.Helper
 {
-    public class BankCardHelper
+    public static class BankCardHelper
     {
-        public static int CardNumber
+        private static List<BankCard> _bankCardList = null;
+        public static List<BankCard> BankCardList
         {
             get
             {
-                if (HttpContext.Current.Session["_bank_card_no"] == null)
-                    HttpContext.Current.Session["_bank_card_no"] = new DBHelper().GetBankCardCount();
-                return (int)HttpContext.Current.Session["_bank_card_no"];
+                if (_bankCardList == null)
+                {
+                    var dt = new DBHelper().GetBankCardList(0, 0, true);
+                    _bankCardList = GeneralUtility.ConvertDataTableToList<BankCard>(dt);
+                }
+                return _bankCardList;
             }
             set
             {
-                HttpContext.Current.Session["_bank_card_no"] = value;
+                _bankCardList = value;
             }
         }
+        public static bool IsBankCardExsit(string accountNo, string accountName, string issueBankAddress)
+        => _bankCardList.Where(i => i.AccountName.StartsWith(accountName) && i.AccountNumber.EndsWith(accountNo) && i.IssuingBankAddress.StartsWith(issueBankAddress)).Count() > 0;
+
     }
 }
