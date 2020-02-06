@@ -10,6 +10,7 @@ namespace AutoMapBankCard.Utility
     {
         public static string ConvertToKeyValueString(Dictionary<string, string> dictionary)
             => dictionary.Select(d => $"{d.Key}={d.Value}").Aggregate((result, next) => $"{result}&{next}");
+
         public static List<T> ConvertDataTableToList<T>(DataTable dt) where T : class, new()
         {
             var result = new List<T>();
