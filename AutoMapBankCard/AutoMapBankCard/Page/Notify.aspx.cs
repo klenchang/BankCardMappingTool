@@ -11,7 +11,6 @@ namespace AutoMapBankCard.Page
 {
     public partial class Notify : System.Web.UI.Page
     {
-        DBHelper _dBHelper = new DBHelper();
         private string teamsUrl = System.Configuration.ConfigurationManager.AppSettings["TeamsUrl"].ToString();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -39,7 +38,7 @@ namespace AutoMapBankCard.Page
                                 var accountName = card["AccountName"]?.ToString();
                                 var issueBankAddress = card["IssueBankAddress"]?.ToString();
                                 sourceList.Add($"{property.Name}: {accountNo} {accountName} {issueBankAddress}");
-                                var isExist = BankCardHelper.IsBankCardExsit(accountNo, accountName, issueBankAddress);
+                                var isExist = BankCardHelper.IsBankCardExsit(accountNo, accountName.Substring(0, 1), issueBankAddress);
                                 if (!isExist)
                                     resultList.Add(property.Name);
                             }
