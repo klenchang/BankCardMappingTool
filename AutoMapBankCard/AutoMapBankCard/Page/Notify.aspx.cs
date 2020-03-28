@@ -16,9 +16,9 @@ namespace AutoMapBankCard.Page
         {
             var status = 0;
             var msg = "";
+            var content = "";
             try
             {
-                var content = "";
                 using (var reader = new StreamReader(Request.InputStream, Encoding.UTF8))
                     content = reader.ReadToEnd();
 
@@ -56,6 +56,7 @@ namespace AutoMapBankCard.Page
             }
             catch (Exception ex)
             {
+                LogUtility.WriteLog($"Input Content => {content}{Environment.NewLine}Exception =>{content}{Environment.NewLine}{ex.ToString()}", "Exception", "Notify");
                 msg = SendErrorMsgToTeams(ex.Message);
                 Response.Write(new JObject { { "status", status }, { "message", msg } }.ToString(Newtonsoft.Json.Formatting.None));
                 Response.End();
