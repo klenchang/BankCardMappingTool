@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 
 namespace AutoMapBankCard.Page
 {
@@ -15,8 +16,8 @@ namespace AutoMapBankCard.Page
         protected void Page_Load(object sender, EventArgs e)
         {
             var status = 0;
-            var msg = "";
             var content = "";
+            var msg = "";
             try
             {
                 using (var reader = new StreamReader(Request.InputStream, Encoding.UTF8))
@@ -38,7 +39,7 @@ namespace AutoMapBankCard.Page
                                 var accountName = card["AccountName"]?.ToString();
                                 var issueBankAddress = card["IssueBankAddress"]?.ToString();
                                 sourceList.Add($"{property.Name}: {accountNo} {accountName} {issueBankAddress}");
-                                var isExist = BankCardHelper.IsBankCardExsit(accountNo, accountName.Substring(0, 1), issueBankAddress);
+                                var isExist = BankCardHelper.IsBankCardExsit(accountNo, accountName?.Substring(0, 1), issueBankAddress);
                                 if (!isExist)
                                     resultList.Add(property.Name);
                             }
@@ -46,24 +47,24 @@ namespace AutoMapBankCard.Page
                             msg = SendResultMsgToTeams(sourceList, resultList);
                         }
                         else
-                            msg = SendTeamsMsg("No card need to be verified.");
+                            msg = SendPureMsgToTeams(content, "No card need to be verified.");
                     }
                     else
-                        msg = SendTeamsMsg("Content is not json format, please check your input.");
+                        msg = SendPureMsgToTeams(content, "Content is not json format, please check your input.");
                 }
                 else
-                    msg = SendTeamsMsg("Content is empty, please check your input.");
+                    msg = SendPureMsgToTeams(content, "Content is empty, please check your input.");
+
+                status = 1;
             }
             catch (Exception ex)
             {
-                LogUtility.WriteLog($"Input Content => {content}{Environment.NewLine}Exception =>{content}{Environment.NewLine}{ex.ToString()}", "Exception", "Notify");
-                msg = SendErrorMsgToTeams(ex.Message);
-                Response.Write(new JObject { { "status", status }, { "message", msg } }.ToString(Newtonsoft.Json.Formatting.None));
-                Response.End();
-                return;
+                msg = SendErrorMsgToTeams(content, ex.ToString());
             }
-            Response.Write(new JObject { { "status", 1 }, { "message", msg } }.ToString(Newtonsoft.Json.Formatting.None));
-            Response.End();
+            Response.Write(new JObject { { "status", status }, { "message", msg } }.ToString(Newtonsoft.Json.Formatting.None));
+            Response.Flush();
+            Response.SuppressContent = true;
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
         private JObject JsonTryParse(string json)
         {
@@ -95,11 +96,11 @@ namespace AutoMapBankCard.Page
 
             return text;
         }
-        private string SendErrorMsgToTeams(string text)
+        private string SendErrorMsgToTeams(string input, string text)
         {
             try
             {
-                SendTeamsMsg(text);
+                SendPureMsgToTeams(input, text);
             }
             catch (Exception ex)
             {
@@ -109,22 +110,32 @@ namespace AutoMapBankCard.Page
         }
         private string SendResultMsgToTeams(List<string> sourceList, List<string> resultList)
         {
-            var text = "Receive Data<br/>";
-            text += "==================================<br/>";
-            foreach (var sourceItem in sourceList)
-                text += $"{sourceItem}<br/>";
-            text += "<br/>";
-            text += "Verification Result<br/>";
-            text += "==================================<br/>";
+            var receiveData = string.Join("<br/>", sourceList);
+            var verifyResult = "";
             if (resultList.Count <= 0)
-                text += "All accounts exist in mow.";
+                verifyResult += "All accounts exist in mow.";
             else
             {
                 var verb = resultList.Count == 1 ? "does" : "do";
-                text += $"{string.Join(", ", resultList)} {verb} not exist in mow";
+                verifyResult += $"{string.Join(", ", resultList)} {verb} not exist in mow";
             }
-            SendTeamsMsg(text);
+            SendPureMsgToTeams(receiveData, verifyResult);
+            
             return "process successfully";
+        }
+        private string SendPureMsgToTeams(string input, string text)
+        {
+            var processText = "Receive Data<br/>";
+            processText += "==================================<br/>";
+            processText += string.IsNullOrWhiteSpace(input) ? "empty" : input;
+            processText += "<br/>";
+            processText += "<br/>";
+            processText += "Verification Result<br/>";
+            processText += "==================================<br/>";
+            processText += text;
+            SendTeamsMsg(processText);
+            
+            return text;
         }
     }
 }

@@ -36,9 +36,9 @@
           1 9043433  宋    深圳国贸支行,
           1 4043971  李   广东省深圳市华联支行,
           1 1097877  尹    永州零陵支行营业部,
-    [Office365connector]
+    Email
 
-    <label style="color:red;">* The text must start from "hosts." and end with "[Office365connector]".</label>
+    <label style="color:red;">* The text must start from "hosts." and end with "Email".</label>
                 </pre>
             </div>
         </div>

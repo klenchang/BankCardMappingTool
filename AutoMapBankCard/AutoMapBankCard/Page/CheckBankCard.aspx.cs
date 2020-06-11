@@ -17,8 +17,8 @@ namespace AutoMapBankCard.Page
             var fullText = txtMessage.Text;
             //replace new line 
             fullText = fullText.Replace(Environment.NewLine, "$nl$");
-            var m = Regex.Match(fullText, @"hosts\..*\[Office365connector\]");
-            var result = m.Value.Trim("host.[Office365connector]$nl$,".ToArray());
+            var m = Regex.Match(fullText, @"hosts\..*Email");
+            var result = m.Value.Trim("host.Email$nl$,".ToArray());
 
             JObject jObj = new JObject();
             var cards = result.Split(new string[] { "$nl$" }, StringSplitOptions.RemoveEmptyEntries);
