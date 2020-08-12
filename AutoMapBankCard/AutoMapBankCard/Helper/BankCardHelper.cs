@@ -26,7 +26,7 @@ namespace AutoMapBankCard.Helper
             }
         }
         public static bool IsBankCardExsit(string accountNo, string accountName, string issueBankAddress)
-        => _bankCardList.Where(i => i.AccountName.StartsWith(accountName) && i.AccountNumber.EndsWith(accountNo) && i.IssuingBankAddress.StartsWith(issueBankAddress)).Count() > 0;
-
+        => BankCardList.Where(i => i.AccountName.StartsWith(accountName) && i.AccountNumber.EndsWith(accountNo) && i.IssuingBankAddress.StartsWith(issueBankAddress)).Count() > 0;
+            
     }
 }
